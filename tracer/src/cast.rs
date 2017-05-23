@@ -17,8 +17,13 @@ pub struct Scene {
 pub fn cast_vector(r: &Ray, s: &Scene) -> Color {
     for sphere in &s.spheres {
         match sphere.intersection(r) {
-            Some(_) =>
-                return Color{r: 0.0, g: 0.0, b: 0.0},
+            Some(p) =>
+                {
+                    let normal = sphere.normal_at(&p);
+                    let to_light = p.vector_to(&s.light_source.p).normalize();
+                    let brightness = (normal.dot(&to_light) + 1.0)/ 2.0;
+                    return Color{r: brightness, g: brightness, b: brightness};
+                }
             None =>
                 continue
         }

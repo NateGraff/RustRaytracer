@@ -30,7 +30,7 @@ fn main() {
             }
         }],
         light_source: Light{
-            p: Point{x: 0.0, y: 0.0, z: 0.0},
+            p: Point{x: 100.0, y: 100.0, z: -100.0},
             c: Color{r: 0.0, g: 0.0, b: 0.0},
         },
         light_color: Color{r: 0.0, g: 0.0, b: 0.0},

@@ -1,5 +1,18 @@
 use data::*;
-use scene::*;
+
+pub struct Viewport {
+    pub eye: Point,
+    pub eye_width: f64,
+    pub eye_height: f64,
+    pub img_width: u32,
+    pub img_height: u32,
+}
+
+pub struct Scene {
+    pub spheres: Vec<Sphere>,
+    pub light_source: Light,
+    pub light_color: Color,
+}
 
 pub fn cast_vector(r: &Ray, s: &Scene) -> Color {
     for sphere in &s.spheres {
@@ -36,18 +49,11 @@ pub fn print_bitmap(bitmap: &Vec<Vec<Color>>) {
     for row in bitmap {
         for pixel in row {
             if (pixel.r + pixel.g + pixel.b) < 0.5 {
-                print!("00");
+                print!("  ");
             } else {
-                print!("11");
+                print!("##");
             }
         }
         print!("\n");
     }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-
 }

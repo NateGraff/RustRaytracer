@@ -1,9 +1,7 @@
 mod data;
-mod scene;
 mod cast;
 
 use data::*;
-use scene::*;
 use cast::*;
 
 fn main() {

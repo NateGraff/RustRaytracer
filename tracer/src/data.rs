@@ -21,7 +21,7 @@ impl Point {
     }
 }
 
-#[derive(PartialEq, Debug)]
+#[derive(PartialEq, Debug, Clone, Copy)]
 pub struct Vector {
     pub x: f64,
     pub y: f64,

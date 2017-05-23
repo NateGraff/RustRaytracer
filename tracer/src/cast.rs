@@ -23,24 +23,23 @@ pub fn cast_vector(r: &Ray, s: &Scene) -> Color {
                     let to_light = p.vector_to(&s.light_source.p).normalize();
                     let brightness = (normal.dot(&to_light) + 1.0)/ 2.0;
 
-                    let mut r = 0.0;
-                    let mut g = 0.0;
-                    let mut b = 0.0;
-                    match sphere.intersection(&Ray{p: p, dir: to_light}) {
-                        Some(_) =>
-                            {
-                                r = 0.0;
-                                g = 0.0;
-                                b = 0.0;
-                            },
-                        None =>
-                            {
-                                r = sphere.c.r * brightness;
-                                g = sphere.c.g * brightness;
-                                b = sphere.c.b * brightness;
-                            }
-                    }
+                    let p = p.translate(&to_light.scale(0.001));
 
+                    if normal.dot(&to_light) >= 0.0 {
+                        for other_sphere in &s.spheres {
+                            let r = sphere.f.ambient * sphere.c.r;
+                            let g = sphere.f.ambient * sphere.c.g;
+                            let b = sphere.f.ambient * sphere.c.b;
+                            match other_sphere.intersection(&Ray{p: p, dir: to_light}) {
+                                Some(_) => return Color{r: r, g: g, b: b},
+                                None => continue
+                            }
+                        }
+                    }
+        
+                    let r = sphere.c.r * brightness;
+                    let g = sphere.c.g * brightness;
+                    let b = sphere.c.b * brightness;
                     return Color{r: r, g: g, b: b};
                 }
             None =>

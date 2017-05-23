@@ -13,8 +13,8 @@ fn main() {
         eye: Point{x: 0.0, y: 0.0, z: -10.0},
         eye_width: 10.0,
         eye_height: 10.0,
-        img_width: 400,
-        img_height: 400,
+        img_width: 500,
+        img_height: 500,
     };
 
     let s = Scene {
@@ -24,7 +24,7 @@ fn main() {
             radius: 2.0,
             c: Color{r: 1.0, g: 0.0, b: 0.5},
             f: Finish {
-                ambient: 0.0,
+                ambient: 0.2,
                 diffuse: 0.0,
                 specular: 0.0,
                 roughness: 0.0,

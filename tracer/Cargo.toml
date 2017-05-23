@@ -1,0 +1,6 @@
+[package]
+name = "tracer"
+version = "0.1.0"
+authors = ["Nathaniel Graff <nathaniel.graff@gmail.com>"]
+
+[dependencies]

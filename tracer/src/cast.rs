@@ -22,7 +22,12 @@ pub fn cast_vector(r: &Ray, s: &Scene) -> Color {
                     let normal = sphere.normal_at(&p);
                     let to_light = p.vector_to(&s.light_source.p).normalize();
                     let brightness = (normal.dot(&to_light) + 1.0)/ 2.0;
-                    return Color{r: brightness, g: brightness, b: brightness};
+
+                    let r = sphere.c.r * brightness;
+                    let g = sphere.c.g * brightness;
+                    let b = sphere.c.b * brightness;
+
+                    return Color{r: r, g: g, b: b};
                 }
             None =>
                 continue

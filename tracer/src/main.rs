@@ -21,7 +21,7 @@ fn main() {
         spheres: vec![Sphere{
             center: Point{x: 0.0, y: 0.0, z: 0.0},
             radius: 2.0,
-            c: Color{r: 0.0, g: 0.0, b: 0.0},
+            c: Color{r: 1.0, g: 0.0, b: 0.5},
             f: Finish {
                 ambient: 0.0,
                 diffuse: 0.0,

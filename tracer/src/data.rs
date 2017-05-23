@@ -1,47 +1,47 @@
 use std::ops::Sub;
 
-#[derive(PartialEq, Debug)]
-struct Point {
-    x: f64,
-    y: f64,
-    z: f64,
+#[derive(PartialEq, Debug, Clone, Copy)]
+pub struct Point {
+    pub x: f64,
+    pub y: f64,
+    pub z: f64,
 }
 
 impl Point {
-    fn vector_to(&self, other: &Point) -> Vector {
+    pub fn vector_to(&self, other: &Point) -> Vector {
         Vector{x: other.x - self.x, y: other.y - self.y, z: other.z - self.z}
     }
 
-    fn vector_from(&self, other: &Point) -> Vector {
+    pub fn vector_from(&self, other: &Point) -> Vector {
         other.vector_to(self)
     }
 
-    fn translate(&self, v: &Vector) -> Point {
+    pub fn translate(&self, v: &Vector) -> Point {
         Point{x: self.x + v.x, y: self.y + v.y, z: self.z + v.z}
     }
 }
 
 #[derive(PartialEq, Debug)]
-struct Vector {
-    x: f64,
-    y: f64,
-    z: f64,
+pub struct Vector {
+    pub x: f64,
+    pub y: f64,
+    pub z: f64,
 }
 
 impl Vector {
-    fn scale(&self, scalar: f64) -> Vector {
+    pub fn scale(&self, scalar: f64) -> Vector {
         Vector {x: self.x * scalar, y: self.y * scalar, z: self.z * scalar}
     }
 
-    fn dot(&self, other: &Vector) -> f64 {
+    pub fn dot(&self, other: &Vector) -> f64 {
         self.x * other.x + self.y * other.y + self.z * other.z
     }
 
-    fn len(&self) -> f64 {
+    pub fn len(&self) -> f64 {
         (self.x.powf(2.0) + self.y.powf(2.0) + self.z.powf(2.0)).sqrt()
     }
 
-    fn normalize(&self) -> Vector {
+    pub fn normalize(&self) -> Vector {
         let length = self.len();
         self.scale(1.0 / length)
     }
@@ -55,33 +55,33 @@ impl Sub for Vector {
     }
 }
 
-struct Ray {
-    p: Point,
-    dir: Vector,
+pub struct Ray {
+    pub p: Point,
+    pub dir: Vector,
 }
 
-struct Color {
-    r: f64,
-    g: f64,
-    b: f64,
+pub struct Color {
+    pub r: f64,
+    pub g: f64,
+    pub b: f64,
 }
 
-struct Finish {
-    ambient: f64,
-    diffuse: f64,
-    specular: f64,
-    roughness: f64,
+pub struct Finish {
+    pub ambient: f64,
+    pub diffuse: f64,
+    pub specular: f64,
+    pub roughness: f64,
 }
 
-struct Sphere {
-    center: Point,
-    radius: f64,
-    c: Color,
-    f: Finish,
+pub struct Sphere {
+    pub center: Point,
+    pub radius: f64,
+    pub c: Color,
+    pub f: Finish,
 }
 
 impl Sphere {
-    fn intersection(&self, r: &Ray) -> Option<Point> {
+    pub fn intersection(&self, r: &Ray) -> Option<Point> {
         let a = r.dir.dot(&r.dir);
         let b = self.center.vector_to(&r.p).scale(2.0).dot(&r.dir);
         let c = self.center.vector_to(&r.p).dot(&self.center.vector_to(&r.p)) - self.radius.powf(2.0);
@@ -107,14 +107,14 @@ impl Sphere {
         }
     }
 
-    fn normal_at(&self, p: &Point) -> Vector {
+    pub fn normal_at(&self, p: &Point) -> Vector {
         self.center.vector_to(&p).normalize()
     }
 }
 
-struct Light {
-    p: Point,
-    c: Color,
+pub struct Light {
+    pub p: Point,
+    pub c: Color,
 }
 
 #[cfg(test)]

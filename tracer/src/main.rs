@@ -18,7 +18,8 @@ fn main() {
     };
 
     let s = Scene {
-        spheres: vec![Sphere{
+        spheres: vec![
+        Sphere{
             center: Point{x: 0.0, y: 0.0, z: 0.0},
             radius: 2.0,
             c: Color{r: 1.0, g: 0.0, b: 0.5},
@@ -28,7 +29,19 @@ fn main() {
                 specular: 0.0,
                 roughness: 0.0,
             }
-        }],
+        },
+        Sphere{
+            center: Point{x: 2.0, y: 2.0, z: -2.0},
+            radius: 0.5,
+            c: Color{r: 1.0, g: 0.0, b: 0.5},
+            f: Finish {
+                ambient: 0.0,
+                diffuse: 0.0,
+                specular: 0.0,
+                roughness: 0.0,
+            }
+        },
+        ],
         light_source: Light{
             p: Point{x: 100.0, y: 100.0, z: -100.0},
             c: Color{r: 0.0, g: 0.0, b: 0.0},

@@ -80,6 +80,38 @@ struct Sphere {
     f: Finish,
 }
 
+impl Sphere {
+    fn intersection(&self, r: &Ray) -> Option<Point> {
+        let a = r.dir.dot(&r.dir);
+        let b = self.center.vector_to(&r.p).scale(2.0).dot(&r.dir);
+        let c = self.center.vector_to(&r.p).dot(&self.center.vector_to(&r.p)) - self.radius.powf(2.0);
+
+        let delta = (b.powf(2.0) - 4.0 * a * c).sqrt();
+        let t1 = (-1.0 * b - delta) / (2.0 * a);
+        let t2 = (-1.0 * b + delta) / (2.0 * a);
+
+        if t1 >= 0.0 && t2 >= 0.0 {
+            // two intersections
+            return Some(r.p.translate(&r.dir.scale(t1.min(t2))));
+        }
+        else if t1 >= 0.0 && t2 < 0.0 {
+            // one intersection
+            return Some(r.p.translate(&r.dir.scale(t1)));
+        }
+        else if t1 < 0.0 && t2 >= 0.0 {
+            // one intersection
+            return Some(r.p.translate(&r.dir.scale(t2)));
+        }
+        else {
+            return None;
+        }
+    }
+
+    fn normal_at(&self, p: &Point) -> Vector {
+        self.center.vector_to(&p).normalize()
+    }
+}
+
 struct Light {
     p: Point,
     c: Color,
@@ -156,5 +188,37 @@ mod tests {
         let v2 = Vector{x: 1.0, y: 1.0, z: 0.0};
         let v3 = Vector{x: 0.0, y: 1.0, z: 0.0};
         assert_eq!(v2 - v3, v1);
+    }
+
+    #[test]
+    fn test_intersection_sphere() {
+        let s = Sphere {
+            center: Point{x: 0.0, y: 0.0, z: 0.0},
+            radius: 1.0,
+            c: Color{r: 0.0, g: 0.0, b: 0.0},
+            f: Finish{ambient: 0.0, diffuse: 0.0, specular: 0.0, roughness: 0.0}
+        };
+        let r1 = Ray {
+            p: Point{x: 3.0, y: 0.0, z: 0.0},
+            dir: Vector{x: -1.0, y: 0.0, z: 0.0}
+        };
+        let r2 = Ray {
+            p: Point{x: 3.0, y: 0.0, z: 0.0},
+            dir: Vector{x: 1.0, y: 0.0, z: 0.0}
+        };
+        assert_eq!(s.intersection(&r1), Some(Point{x: 1.0, y: 0.0, z: 0.0}));
+        assert_eq!(s.intersection(&r2), None);
+    }
+
+    #[test]
+    fn test_normal_at_sphere() {
+        let s = Sphere {
+            center: Point{x: 0.0, y: 0.0, z: 0.0},
+            radius: 1.0,
+            c: Color{r: 0.0, g: 0.0, b: 0.0},
+            f: Finish{ambient: 0.0, diffuse: 0.0, specular: 0.0, roughness: 0.0}
+        };
+        let p = Point{x: 1.0, y: 0.0, z: 0.0};
+        assert_eq!(s.normal_at(&p), Vector{x: 1.0, y: 0.0, z: 0.0});
     }
 }
